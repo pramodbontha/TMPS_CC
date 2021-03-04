@@ -18,12 +18,13 @@ const Journals = (props) => {
 			const connection = props.connection;
 			connection.onopen = (session) => {
 				getJournalService(session).then((res) => {
-					setJournals(res);
+					setJournals(res.reverse());
 				});
 				session.subscribe(
 					"com.filmdatabox.democontrol.journal",
 					function (args) {
-						setJournals(args);
+						var updatedJournals = args.reverse().concat(jouranls);
+						setJournals(updatedJournals.slice(0, 39));
 					}
 				);
 			};
