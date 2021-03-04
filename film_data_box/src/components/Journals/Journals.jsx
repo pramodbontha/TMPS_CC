@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { getJournalService } from "../../services/journal.js";
+import { getJournalService } from "../../services/journal.js";
 import {
 	Container,
 	Table,
@@ -16,11 +16,9 @@ const Journals = (props) => {
 		const fetchJournals = async () => {
 			const connection = props.connection;
 			connection.onopen = (session) => {
-				session
-					.call("com.filmdatabox.democontrol.journal")
-					.then(async (res) => {
-						setJournals(res);
-					});
+				getJournalService(session).then((res) => {
+					setJournals(res);
+				});
 			};
 			connection.open();
 		};
