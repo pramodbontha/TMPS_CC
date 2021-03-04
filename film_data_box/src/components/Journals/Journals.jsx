@@ -17,14 +17,19 @@ const Journals = (props) => {
 		const fetchJournals = async () => {
 			const connection = props.connection;
 			connection.onopen = (session) => {
-				getJournalService(session).then((res) => {
-					setJournals(res.reverse());
-				});
+				if (!jouranls.length) {
+					getJournalService(session).then((res) => {
+						setJournals(res.reverse());
+					});
+				}
 				session.subscribe(
 					"com.filmdatabox.democontrol.journal",
 					function (args) {
-						var updatedJournals = args.reverse().concat(jouranls);
-						setJournals(updatedJournals.slice(0, 39));
+						setJournals((jouranls) => {
+							var updatedJournals = args.reverse().concat(jouranls);
+							var jouranlsSliced = updatedJournals.slice(0, 39);
+							return jouranlsSliced;
+						});
 					}
 				);
 			};
