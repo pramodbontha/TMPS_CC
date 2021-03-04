@@ -12,6 +12,7 @@ import {
 
 const Journals = (props) => {
 	const [jouranls, setJournals] = useState([]);
+
 	useEffect(() => {
 		const fetchJournals = async () => {
 			const connection = props.connection;
@@ -19,11 +20,17 @@ const Journals = (props) => {
 				getJournalService(session).then((res) => {
 					setJournals(res);
 				});
+				session.subscribe(
+					"com.filmdatabox.democontrol.journal",
+					function (args) {
+						setJournals(args);
+					}
+				);
 			};
 			connection.open();
 		};
 		fetchJournals();
-	});
+	}, []);
 
 	return (
 		<div>

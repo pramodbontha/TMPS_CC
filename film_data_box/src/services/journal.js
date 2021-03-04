@@ -1,5 +1,3 @@
-export const getJournalService = (session) => {
-	session.call("com.filmdatabox.democontrol.journal").then((res) => {
-		return res;
-	});
+export const getJournalService = async (session) => {
+	return session.call("com.filmdatabox.democontrol.journal");
 };
